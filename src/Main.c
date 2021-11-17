@@ -8,20 +8,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "arvoreB.c"
 
 bool stringEquals(char*, char*);
 
 int main(int argc, char* argv[]) {
     if (argc == 3 && stringEquals(argv[1], "-c")) {
         puts("Modo criacao");
-
-    } else if (argc == 2 && stringEquals(argv[1], "-p")) {
+    }
+    else if (argc == 2 && stringEquals(argv[1], "-p")) {
         puts("Modo Informação");
-
-    } else if (argc == 2 && stringEquals(argv[1], "-k")) {
+    }
+    else if (argc == 2 && stringEquals(argv[1], "-k")) {
         puts("Modo Impressao");
-
-    } else {
+    }
+    else {
         fprintf(stderr, "Argumentos incorretos!\n");
         fprintf(stderr, "Modo de uso:\n");
         fprintf(stderr, "$ %s (-c) nome_arquivo\n", argv[0]);
