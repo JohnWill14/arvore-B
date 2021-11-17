@@ -1,0 +1,38 @@
+Pagina 0
+Chaves: 1 | 2
+Filhos: -1 | -1 | -1
+
+Pagina 1
+Chaves: 16 | 17
+Filhos: -1 | -1 | -1
+
+Pagina 2
+Chaves: 3 | 6
+Filhos: 0 | 4 | 6
+
+Pagina 3
+Chaves: 12 | 13 | 14
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 4
+Chaves: 4 | 5
+Filhos: -1 | -1 | -1
+
+Pagina 5
+Chaves: 19 | 20
+Filhos: -1 | -1 | -1
+
+Pagina 6
+Chaves: 7 | 8 | 9 | 10
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 7
+Chaves: 15 | 18
+Filhos: 3 | 1 | 5
+
+- - - - Pagina Raiz - - - -
+Pagina 8
+Chaves: 11
+Filhos: 2 | 7
+- - - - - - - - - - - - - -
+

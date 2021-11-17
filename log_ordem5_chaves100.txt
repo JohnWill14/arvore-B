@@ -1,0 +1,158 @@
+Pagina 0
+Chaves: 1 | 2
+Filhos: -1 | -1 | -1
+
+Pagina 1
+Chaves: 76 | 77 | 78 | 79
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 2
+Chaves: 3 | 8 | 11
+Filhos: 0 | 21 | 9 | 36
+
+Pagina 3
+Chaves: 37 | 38
+Filhos: -1 | -1 | -1
+
+Pagina 4
+Chaves: 22 | 23
+Filhos: -1 | -1 | -1
+
+Pagina 5
+Chaves: 88 | 89
+Filhos: -1 | -1 | -1
+
+Pagina 6
+Chaves: 48 | 49 | 50 | 51
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 7
+Chaves: 52 | 56
+Filhos: 6 | 15 | 23
+
+Pagina 8
+Chaves: 14 | 27 | 36 | 47
+Filhos: 2 | 33 | 13 | 35 | 7
+
+Pagina 9
+Chaves: 9 | 10
+Filhos: -1 | -1 | -1
+
+Pagina 10
+Chaves: 43 | 44 | 45 | 46
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 11
+Chaves: 62 | 63 | 64
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 12
+Chaves: 28 | 29
+Filhos: -1 | -1 | -1
+
+Pagina 13
+Chaves: 30 | 33
+Filhos: 12 | 31 | 22
+
+Pagina 14
+Chaves: 81 | 82 | 83
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 15
+Chaves: 53 | 54 | 55
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 16
+Chaves: 80 | 84
+Filhos: 1 | 14 | 24
+
+Pagina 17
+Chaves: 91 | 92
+Filhos: -1 | -1 | -1
+
+Pagina 18
+Chaves: 15 | 16
+Filhos: -1 | -1 | -1
+
+Pagina 19
+Chaves: 70 | 71
+Filhos: -1 | -1 | -1
+
+Pagina 20
+Chaves: 97 | 98 | 99 | 100
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 21
+Chaves: 4 | 5 | 6 | 7
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 22
+Chaves: 34 | 35
+Filhos: -1 | -1 | -1
+
+Pagina 23
+Chaves: 57 | 58 | 59 | 60
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 24
+Chaves: 85 | 86
+Filhos: -1 | -1 | -1
+
+Pagina 25
+Chaves: 90 | 93 | 96
+Filhos: 5 | 17 | 38 | 20
+
+Pagina 26
+Chaves: 73 | 74
+Filhos: -1 | -1 | -1
+
+Pagina 27
+Chaves: 65 | 69 | 72
+Filhos: 11 | 30 | 19 | 26
+
+Pagina 28
+Chaves: 75 | 87
+Filhos: 27 | 16 | 25
+
+- - - - Pagina Raiz - - - -
+Pagina 29
+Chaves: 61
+Filhos: 8 | 28
+- - - - - - - - - - - - - -
+
+Pagina 30
+Chaves: 66 | 67 | 68
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 31
+Chaves: 31 | 32
+Filhos: -1 | -1 | -1
+
+Pagina 32
+Chaves: 18 | 19 | 20
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 33
+Chaves: 17 | 21 | 24
+Filhos: 18 | 32 | 4 | 37
+
+Pagina 34
+Chaves: 40 | 41
+Filhos: -1 | -1 | -1
+
+Pagina 35
+Chaves: 39 | 42
+Filhos: 3 | 34 | 10
+
+Pagina 36
+Chaves: 12 | 13
+Filhos: -1 | -1 | -1
+
+Pagina 37
+Chaves: 25 | 26
+Filhos: -1 | -1 | -1
+
+Pagina 38
+Chaves: 94 | 95
+Filhos: -1 | -1 | -1
+

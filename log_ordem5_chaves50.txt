@@ -1,0 +1,78 @@
+Pagina 0
+Chaves: 1 | 2 | 3
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 1
+Chaves: 22 | 23
+Filhos: -1 | -1 | -1
+
+Pagina 2
+Chaves: 4 | 7
+Filhos: 0 | 13 | 9
+
+Pagina 3
+Chaves: 15 | 16 | 17
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 4
+Chaves: 35 | 36
+Filhos: -1 | -1 | -1
+
+Pagina 5
+Chaves: 42 | 43 | 44 | 45
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 6
+Chaves: 38 | 39 | 40
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 7
+Chaves: 37 | 41 | 46
+Filhos: 4 | 6 | 5 | 14
+
+- - - - Pagina Raiz - - - -
+Pagina 8
+Chaves: 10 | 21 | 34
+Filhos: 2 | 17 | 12 | 7
+- - - - - - - - - - - - - -
+
+Pagina 9
+Chaves: 8 | 9
+Filhos: -1 | -1 | -1
+
+Pagina 10
+Chaves: 31 | 32 | 33
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 11
+Chaves: 28 | 29
+Filhos: -1 | -1 | -1
+
+Pagina 12
+Chaves: 24 | 27 | 30
+Filhos: 1 | 18 | 11 | 10
+
+Pagina 13
+Chaves: 5 | 6
+Filhos: -1 | -1 | -1
+
+Pagina 14
+Chaves: 47 | 48 | 49 | 50
+Filhos: -1 | -1 | -1 | -1 | -1
+
+Pagina 15
+Chaves: 19 | 20
+Filhos: -1 | -1 | -1
+
+Pagina 16
+Chaves: 11 | 12 | 13
+Filhos: -1 | -1 | -1 | -1
+
+Pagina 17
+Chaves: 14 | 18
+Filhos: 16 | 3 | 15
+
+Pagina 18
+Chaves: 25 | 26
+Filhos: -1 | -1 | -1
+
