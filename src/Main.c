@@ -1,7 +1,7 @@
 /*
  * Autores: 
- *  - JOHN WILLIAM Vicente <ra118237@uem.br
- *  - Gabriel Valientim de Oliveira Dacie
+ *  - John William Vicente <ra118237@uem.br>
+ *  - Gabriel Valentim de Oliveira Dacie <ra118419@uem.br>
 */
 
 #include <stdbool.h>
@@ -11,6 +11,16 @@
 #include "arvoreB.c"
 
 bool stringEquals(char*, char*);
+
+/* Querida professora;
+ Quando eu e o john escrevemos esse código,
+ apenas nos e Deus sabíamos como ele funcionava.
+ Agora, apenas Deus sabe!
+
+ Então, se você encontrar alguma gambiarra e com certeza vai 
+ apenas confia nelas.
+ total de gambiarras: 0
+*/
 
 int main(int argc, char* argv[]) {
     if (argc == 3 && stringEquals(argv[1], "-c")) {
