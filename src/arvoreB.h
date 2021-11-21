@@ -11,10 +11,16 @@
 #define ORDEM_ARVORE_B 4
 
 typedef struct {
-    int numeroDeChaves;           /* número de chaves na página */
-    char chaves[ORDEM_ARVORE_B-1]; /* vetor que armazena as chaves */
-    int filhos[ORDEM_ARVORE_B];    /* RRNs dos filhos */
+    int numeroDeChaves;              /* número de chaves na página */
+    char chaves[ORDEM_ARVORE_B - 1]; /* vetor que armazena as chaves */
+    int filhos[ORDEM_ARVORE_B];      /* RRNs dos filhos */
 } Pagina;
+
+typedef struct {
+    int numeroDeChaves;             /* número de chaves na página */
+    char chaves[ORDEM_ARVORE_B];    /* vetor que armazena as chaves */
+    int filhos[ORDEM_ARVORE_B + 1]; /* RRNs dos filhos */
+} PaginaAuxiliar;
 
 void geraArvoreB(char*);
 void imprimeArvoreB();

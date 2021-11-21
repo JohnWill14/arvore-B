@@ -8,6 +8,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef enum {
     ERRO,
@@ -19,20 +20,30 @@ typedef enum {
 
 bool busca(int, int, int *, int *);
 bool buscaNaPagina(int, Pagina, int *);
-Pagina getPag(int, FILE *);
+Pagina criaPaginaVazia();
+PaginaAuxiliar criaPaginaAuxiliarVazia();
+Pagina getPaginaPeloRRN(int);
 int leiaIntDasChaves(FILE *, int *);
+Codigos inseriChave(int, int, int *, int *);
 Pagina inseriNaPagina(int, int, Pagina);
 void escrevePagina(Pagina, int);
 FILE *criaArquivoEscrita(char *);
 FILE *abreArquivo(char *);
 int byteOffsetApartirDoRRN(int);
+void selectionSort(PaginaAuxiliar *pag);
+void divide(int chave, int filhoDireita, Pagina pag, int pos, int *RrnNovaPagina, Pagina *novaPag);
 
 void geraArvoreB(char *nomeArquivo) {
     FILE *arquivoDados = abreArquivo(nomeArquivo);
+    FILE *arvore = criaArquivoEscrita(ARQUIVO_DADOS);
+    fclose(arvore);
     int numero;
 
+    escrevePagina(criaPaginaVazia(), 0);
+    Pagina pag = getPaginaPeloRRN(0);
+    int a, b;
     while (leiaIntDasChaves(arquivoDados, &numero) != EOF) {
-        printf("*** %d\n", numero);
+        inseriChave(0, numero, &a, &b);
     }
 
     fclose(arquivoDados);
@@ -40,7 +51,6 @@ void geraArvoreB(char *nomeArquivo) {
 
 void imprimeArvoreB() {
 }
-
 void mostraChavesOrdenadasArvoreB() {
 }
 
@@ -48,45 +58,81 @@ int leiaIntDasChaves(FILE *file, int *num) {
     return fscanf(file, "%d|", num);
 }
 
-// Codigos inseriChave(int rrn, int chave, int *filhoDireito, int *chavePromovida) {
-//     if (rrn < 0) {
-//         *chavePromovida = chave;
-//         *filhoDireito = -1;
+Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoPromovido) {
+    if (rrn < 0) {
+        *chavePromovida = chave;
+        *filhoPromovido = -1;
 
-//         return PROMOCAO;
-//     }
-//     Pagina pag;
-//     FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
-//     int pos;
+        return PROMOCAO;
+    }
 
-//     pag = getPag(rrn, arquiArvoreB);
-//     fclose(arquiArvoreB);
+    int pos = 0;
+    Pagina pag = getPaginaPeloRRN(rrn);
+    bool encontrada = buscaNaPagina(chave, pag, &pos);
 
-//     bool encontrado = buscaNaPagina(chave, pag, &pos);
+    if (encontrada) {
+        return ERRO;
+    }
 
-//     if (encontrado) {
-//         fprintf(stderr, "Chave repetida !!!\n");
-//         return ERRO;
-//     }
+    Codigos codigo = inseriChave(pag.filhos[pos], chave, chavePromovida, filhoPromovido);
 
-//     int *rrnPromovido;
+    if (codigo == ERRO || codigo == SEM_PROMOCAO) {
+        return codigo;
+    }
 
-//     Codigos retorno = inseriChave(pag.filhos[pos], chave, rrnPromovido, chavePromovida);
+    if (pag.numeroDeChaves < ORDEM_ARVORE_B - 1) {
+        pag = inseriNaPagina(chave, *filhoPromovido, pag);
+        escrevePagina(pag, rrn);
 
-//     if (retorno == SEM_PROMOCAO || retorno == ERRO) {
-//         return retorno;
-//     }
-// // vou conseguir inserir
-//     if (pag.numeroDeChaves < ORDEM_ARVORE_B - 1) {
-//         pag = inseriNaPagina(chave, *rrnPromovido, pag);
+        return SEM_PROMOCAO;
+    } else {
+        puts("EFETUA DIVISAO");
+        printf("Chave: %d\n", chave);
+        printf("chavePromovido: %d\n", *chavePromovida);
+        printf("filhoPromovido: %d\n", *filhoPromovido);
+        printf("Chave pai: %d\n", pag.chaves[pos]);
 
-//         escrevePagina(pag, rrn);
+        puts("=======");
+        printf("Numeros de chaves desse:  bgl %d\n", pag.numeroDeChaves);
+        printf("chaves: ");
+        for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
+            printf("%d, ", pag.chaves[i]);
+        }
+        printf("\nfilhos: ");
+        for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+            printf("%d, ", pag.filhos[i]);
+        }
 
-//         return SEM_PROMOCAO;
-//     } else {
-//        escrevePagina(pag, rrn);
-//     }
-// }
+        puts("\n=======\n");
+
+        Pagina pagaux;
+        int rrn;
+        divide(chave, *filhoPromovido, pag, pos, &rrn, &pagaux);
+    }
+}
+
+Pagina criaPaginaVazia() {
+    Pagina *pag = (Pagina *)malloc(sizeof(Pagina));
+    pag->numeroDeChaves = 0;
+
+    for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
+        pag->chaves[i] = -1;
+    }
+
+    for (int i = 0; i < ORDEM_ARVORE_B ; i++) {
+        pag->filhos[i] = -1;
+    }
+
+    return *pag;
+}
+
+PaginaAuxiliar criaPaginaAuxiliarVazia() {
+    PaginaAuxiliar *pag = (PaginaAuxiliar *)malloc(sizeof(Pagina));
+    memset(pag->chaves, -1, ORDEM_ARVORE_B - 1);
+    memset(pag->filhos, -1, ORDEM_ARVORE_B);
+
+    return *pag;
+}
 
 void escrevePagina(Pagina pag, int rrn) {
     FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
@@ -106,6 +152,9 @@ Pagina inseriNaPagina(int chave, int filho, Pagina pag) {
 
     pag.chaves[i] = chave;
     pag.filhos[i + 1] = filho;
+    pag.numeroDeChaves += 1;
+
+    return pag;
 }
 
 bool busca(int rrn, int chave, int *rrn_encontrado, int *pos_encontrada) {
@@ -113,11 +162,9 @@ bool busca(int rrn, int chave, int *rrn_encontrado, int *pos_encontrada) {
         return false;
     }
     Pagina pag;
-    FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
     int pos;
 
-    pag = getPag(rrn, arquiArvoreB);
-    fclose(arquiArvoreB);
+    pag = getPaginaPeloRRN(rrn);
 
     bool encontrado = buscaNaPagina(chave, pag, &pos);
 
@@ -131,20 +178,22 @@ bool busca(int rrn, int chave, int *rrn_encontrado, int *pos_encontrada) {
     return busca(pag.filhos[pos], chave, rrn_encontrado, pos_encontrada);
 }
 
-Pagina getPag(int rrn, FILE *file) {
+Pagina getPaginaPeloRRN(int rrn) {
+    FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
     Pagina pag;
 
-    fseek(file, byteOffsetApartirDoRRN(rrn), SEEK_SET);
-    fread(&pag, sizeof(Pagina), 1, file);
+    fseek(arquiArvoreB, byteOffsetApartirDoRRN(rrn), SEEK_SET);
+    fread(&pag, sizeof(Pagina), 1, arquiArvoreB);
 
+    fclose(arquiArvoreB);
     return pag;
 }
 
 bool buscaNaPagina(int chave, Pagina pag, int *pos) {
-    for (int i = 0; i < pag.numeroDeChaves && pag.chaves[i] < chave; i++) {
+    for (int i = 0; i < pag.numeroDeChaves && pag.chaves[i] <= chave; i++) {
         *pos = i;
 
-        if (i < pag.numeroDeChaves && chave == pag.chaves[i]) {
+        if (chave == pag.chaves[i]) {
             return true;
         }
     }
@@ -152,8 +201,46 @@ bool buscaNaPagina(int chave, Pagina pag, int *pos) {
     return false;
 }
 
-void divide(){
+void divide(int chave, int filhoDireita, Pagina pag, int pos, int *RrnNovaPagina, Pagina *novaPag) {
+    PaginaAuxiliar paux;
+    for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
+        printf("%d || %d\n", pag.chaves[i], pag.filhos[i]);
+        paux.chaves[i] = pag.chaves[i];
+        paux.filhos[i] = pag.filhos[i];
+    }
+    paux.chaves[ORDEM_ARVORE_B - 1] = chave;
+    paux.filhos[ORDEM_ARVORE_B - 1] = filhoDireita;
+    //selectionSort(&paux);
 
+    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+        printf("%d | ", paux.chaves[i]);
+    }
+    puts("\n");
+    for (int i = 0; i < ORDEM_ARVORE_B + 1; i++) {
+        printf("%d | ", paux.filhos[i]);
+    }
+    puts("");
+}
+
+void selectionSort(PaginaAuxiliar *pag) {
+    int min, chaveAux, filhoAux;
+    for (int i = 0; i < (ORDEM_ARVORE_B - 1); i++) {
+        min = i;
+        for (int j = (i + 1); j < ORDEM_ARVORE_B; j++) {
+            if (pag->chaves[j] < pag->chaves[min])
+                min = j;
+        }
+        if (i != min) {
+            chaveAux = pag->chaves[i];
+            filhoAux = pag->filhos[i];
+
+            pag->chaves[i] = pag->chaves[min];
+            pag->filhos[i] = pag->filhos[min];
+
+            pag->chaves[min] = chaveAux;
+            pag->filhos[min] = filhoAux;
+        }
+    }
 }
 
 FILE *criaArquivoEscrita(char *nomeArquivo) {
@@ -193,5 +280,5 @@ FILE *abreArquivo(char *nomeArquivo) {
 }
 
 int byteOffsetApartirDoRRN(int rrn) {
-    return sizeof(int) + rrn * sizeof(Pagina);
+    return rrn * sizeof(Pagina);
 }
