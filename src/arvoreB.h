@@ -8,7 +8,7 @@
 #define _ARVORE_B_
 
 #define ARQUIVO_DADOS "btree.dat"
-#define ORDEM_ARVORE_B 5
+#define ORDEM_ARVORE_B 4
 
 typedef struct {
     int numeroDeChaves;             /* número de chaves na página */
