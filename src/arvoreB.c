@@ -21,7 +21,6 @@ typedef enum {
     NAO_ENCONTRADO
 } Codigos;
 
-
 void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina);
 Codigos inseriChave(int, int, int *, int *);
 
@@ -55,41 +54,13 @@ void geraArvoreB(char *nomeArquivo) {
 
     for (int i = 0; i <= qtd; i++) {
         Pagina pag = getPaginaPeloRRN(i);
-        puts("\n------------------");
-        printf("RRN: %d\n", i);
-        printf("Numero elementos: %d", pag.numeroDeChaves);
-        printf("\nchaves: ");
-        for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
-            printf("%d |", pag.chaves[i]);
-        }
-
-        printf("\nfilhos: ");
-        for (int i = 0; i < ORDEM_ARVORE_B; i++) {
-            printf("%d |", pag.filhos[i]);
-        }
-        puts("\n------------------\n ");
+        exibePagina(pag);
     }
     printf("RAIZ %d\n", raiz);
     fclose(arquivoDados);
 }
 
 void imprimeArvoreB() {
-    for (int i = 0; i < 3; i++) {
-        Pagina pag = getPaginaPeloRRN(i);
-        puts("\n------------------");
-        printf("RRN: %d\n", i);
-        printf("Numero elementos: %d", pag.numeroDeChaves);
-        printf("\nchaves: ");
-        for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
-            printf("%d |", pag.chaves[i]);
-        }
-
-        printf("\nfilhos: ");
-        for (int i = 0; i < ORDEM_ARVORE_B; i++) {
-            printf("%d |", pag.filhos[i]);
-        }
-        puts("\n------------------\n ");
-    }
 }
 
 void mostraChavesOrdenadasArvoreB() {
@@ -106,7 +77,6 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
     int pos = 0;
     Pagina pag = getPaginaPeloRRN(rrn);
     bool encontrada = buscaNaPagina(chave, pag, &pos);
-    printf("CHAVE : %d - POSICAO : %d\n", chave, pos);
 
     if (encontrada) {
         return ERRO;
@@ -133,49 +103,52 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
     }
 }
 
-
 void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina) {
-    PaginaAuxiliar paux;
-    int tam = (ORDEM_ARVORE_B - 1);
+    PaginaAuxiliar paux = copiaPaginaParaAuxiliar(pag);
+    int tam = ORDEM_ARVORE_B - 1;
 
-    for (int i = 0; i < tam; i++) {
-        paux.chaves[i] = pag->chaves[i];
-    }
-    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
-        paux.filhos[i] = pag->filhos[i];
-    }
     inseriChavePaginaAuxiliar(chave, filhoDireita, &paux);
 
     int meio = ORDEM_ARVORE_B / 2;
 
-    for (int i = 0; i < tam; i++) {
+    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
         if (i < meio) {
             pag->chaves[i] = paux.chaves[i];
-        } else {
+        } else
             pag->chaves[i] = -1;
-        }
     }
 
-    for (int i = 0; i < tam + 1; i++) {
-        if (i < meio) {
+    for (int i = 0; i < ORDEM_ARVORE_B + 1; i++) {
+        if (i < meio )
             pag->filhos[i] = paux.filhos[i];
-        } else {
-            pag->filhos[i] = -1;
-        }
+        else
+            pag->chaves[i] = -1;
     }
 
     for (int i = meio + 1; i < ORDEM_ARVORE_B; i++) {
-        novaPagina->chaves[i - (meio + 1)] = paux.chaves[i];
+        int j = i - (meio + 1);
+        novaPagina->chaves[j] = paux.chaves[i];
     }
 
-    for (int i = meio + 1; i < ORDEM_ARVORE_B + 1; i++) {
-        novaPagina->filhos[i - (meio + 1)] = paux.filhos[i];
+    for (int i = meio ; i < ORDEM_ARVORE_B; i++) {
+        int j = i - (meio + 1);
+        novaPagina->chaves[j] = paux.filhos[i];
     }
+
     novaPagina->filhos[meio] = paux.filhos[tam + 1];
 
     *chavePromovida = paux.chaves[meio];
+
     pag->numeroDeChaves = meio;
     novaPagina->numeroDeChaves = meio - 1;
+
     qtd += 1;
     *rrn = qtd;
+
+    printf("\nMEIO: %d - VALOR: %d\n", meio, *chavePromovida);
+    exibePaginaAuxiliar(paux);
+    // puts("Pagina antiga:");
+    // exibePagina(*pag);
+    // puts("Pagina nova:");
+    // exibePagina(*novaPagina);
 }

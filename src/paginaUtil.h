@@ -16,6 +16,7 @@ void inseriChavePaginaAuxiliar(int, int, PaginaAuxiliar *);
 bool busca(int, int, int *, int *);
 bool buscaNaPagina(int, Pagina, int *);
 void escrevePagina(Pagina, int);
+void exibePagina(Pagina);
 int byteOffsetApartirDoRRN(int);
 
 Pagina criaPaginaVazia() {
@@ -45,6 +46,20 @@ PaginaAuxiliar criaPaginaAuxiliarVazia() {
     }
 
     return *pag;
+}
+
+PaginaAuxiliar copiaPaginaParaAuxiliar(Pagina *pagina) {
+    PaginaAuxiliar paux;
+
+    for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
+        paux.chaves[i] = pagina->chaves[i];
+    }
+    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+        paux.filhos[i] = pagina->filhos[i];
+    }
+    paux.numeroDeChaves = ORDEM_ARVORE_B - 1;
+
+    return paux;
 }
 
 Pagina getPaginaPeloRRN(int rrn) {
@@ -92,7 +107,7 @@ bool busca(int rrn, int chave, int *rrn_encontrado, int *pos_encontrada) {
     if (rrn < 0) {
         return false;
     }
-    Pagina pag = criaPaginaVazia();
+    Pagina pag;
     int pos;
 
     pag = getPaginaPeloRRN(rrn);
@@ -111,13 +126,13 @@ bool busca(int rrn, int chave, int *rrn_encontrado, int *pos_encontrada) {
 
 bool buscaNaPagina(int chave, Pagina pag, int *pos) {
     int i = 0;
-    while (i < pag.numeroDeChaves && chave > pag.chaves[i]) {
-        i++;
-        *pos = i;
+    while (i < pag.numeroDeChaves && chave >= pag.chaves[i]) {
         if (i < pag.numeroDeChaves && chave == pag.chaves[i]) {
             return true;
         }
+        i++;
     }
+    *pos = i;
     return false;
 }
 
@@ -126,6 +141,36 @@ void escrevePagina(Pagina pag, int rrn) {
     fseek(arquiArvoreB, byteOffsetApartirDoRRN(rrn), SEEK_SET);
     fwrite(&pag, sizeof(Pagina), 1, arquiArvoreB);
     fclose(arquiArvoreB);
+}
+
+void exibePagina(Pagina pag) {
+    puts("\n------------------");
+    printf("Numero elementos: %d", pag.numeroDeChaves);
+    printf("\nchaves: ");
+    for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
+        printf("%d |", pag.chaves[i]);
+    }
+
+    printf("\nfilhos: ");
+    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+        printf("%d |", pag.filhos[i]);
+    }
+    puts("\n------------------\n ");
+}
+
+void exibePaginaAuxiliar(PaginaAuxiliar pag) {
+    puts("\n--------AUXILIAR----------");
+    printf("Numero elementos: %d", pag.numeroDeChaves);
+    printf("\nchaves: ");
+    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+        printf("%d |", pag.chaves[i]);
+    }
+
+    printf("\nfilhos: ");
+    for (int i = 0; i < ORDEM_ARVORE_B + 1; i++) {
+        printf("%d |", pag.filhos[i]);
+    }
+    puts("\n------------------\n ");
 }
 
 int byteOffsetApartirDoRRN(int rrn) {
