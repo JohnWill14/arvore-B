@@ -29,6 +29,7 @@ int main(int argc, char* argv[]) {
         geraArvoreB(argv[2]);
     } else if (argc == 2 && stringEquals(argv[1], "-p")) {
         puts("Modo Informação");
+        imprimeArvoreB();
     } else if (argc == 2 && stringEquals(argv[1], "-k")) {
         puts("Modo Impressao");
     } else {
