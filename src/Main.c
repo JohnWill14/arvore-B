@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
         imprimeArvoreB();
     } else if (argc == 2 && stringEquals(argv[1], "-k")) {
         puts("Modo Impressao");
+        mostraChavesOrdenadasArvoreB();
     } else {
         fprintf(stderr, "Argumentos incorretos!\n");
         fprintf(stderr, "Modo de uso:\n");

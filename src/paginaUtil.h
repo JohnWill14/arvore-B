@@ -16,7 +16,7 @@ void inseriChavePaginaAuxiliar(int, int, PaginaAuxiliar *);
 bool busca(int, int, int *, int *);
 bool buscaNaPagina(int, Pagina, int *);
 void atualizaPagina(Pagina, int);
-void adicionaNovaPagina(Pagina, int);
+void adicionaNovaPagina(Pagina);
 void escrevePagina(Pagina, int);
 void exibePagina(Pagina);
 
@@ -150,7 +150,7 @@ bool buscaNaPagina(int chave, Pagina pag, int *pos) {
 void atualizaPagina(Pagina pag, int rrn) {
     escrevePagina(pag, rrn);
 }
-void adicionaNovaPagina(Pagina pag, int rrn){
+void adicionaNovaPagina(Pagina pag){
     int qtd = quantidade();
     escrevePagina(pag, qtd);
     alteraQuantidade(qtd+1);

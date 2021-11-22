@@ -23,8 +23,7 @@ typedef enum {
 
 Codigos inseriChave(int, int, int *, int *);
 void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina);
-
-int quantidadePaginas = 0;
+void imprimiEmOrdem(int);
 
 void geraArvoreB(char *nomeArquivo) {
     int valorEntrada;
@@ -42,9 +41,7 @@ void geraArvoreB(char *nomeArquivo) {
             novapag.filhos[0] = raiz;
             novapag.filhos[1] = filhoDireita;
             novapag.numeroDeChaves = 1;
-            quantidadePaginas += 1;
-            //escrevePagina(novapag, quantidadePaginas);
-            adicionaNovaPagina(novapag, quantidadePaginas);
+            adicionaNovaPagina(novapag);
             raiz = quantidade() - 1;
             alteraRaizArvoreB(raiz);
         }
@@ -72,6 +69,20 @@ void imprimeArvoreB() {
 }
 
 void mostraChavesOrdenadasArvoreB() {
+    abreArquivo(ARQUIVO_DADOS);
+    imprimiEmOrdem(raizArvoreB());
+}
+
+void imprimiEmOrdem(int pag) {
+    if (pag < 0) return;
+    Pagina pagina = getPaginaPeloRRN(pag);
+    int i;
+    for (i = 0; i < pagina.numeroDeChaves; i++) {
+        imprimiEmOrdem(pagina.filhos[i]);
+        printf("%02d | ", pagina.chaves[i]);
+    }
+
+    imprimiEmOrdem(pagina.filhos[i]);
 }
 
 Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
@@ -98,7 +109,7 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
 
     if (pag.numeroDeChaves < ORDEM_ARVORE_B - 1) {
         pag = inseriNaPagina(*chavePromovida, *filhoDireita, pag);
-        escrevePagina(pag, rrn);
+        atualizaPagina(pag, rrn);
 
         return SEM_PROMOCAO;
     } else {
@@ -108,8 +119,7 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
         *chavePromovida = beatriz;
 
         atualizaPagina(pag, rrn);
-        // escrevePagina(pagaux, *filhoDireita);
-        adicionaNovaPagina(pagaux, *filhoDireita);
+        adicionaNovaPagina(pagaux);
         return PROMOCAO;
     }
 }
@@ -151,6 +161,5 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     pag->numeroDeChaves = meio;
     novaPagina->numeroDeChaves = ORDEM_ARVORE_B % 2 == 0 ? meio - 1 : meio;
 
-    quantidadePaginas += 1;
-    *rrn = quantidadePaginas;
+    *rrn = quantidade();
 }
