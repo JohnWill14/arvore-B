@@ -19,6 +19,16 @@ void escrevePagina(Pagina, int);
 void exibePagina(Pagina);
 int byteOffsetApartirDoRRN(int);
 
+void geraNovaArvore() {
+    int raiz = 0, qtd = 0;
+    Pagina pag = criaPaginaVazia();
+    FILE *arvore = criaArquivoEscrita(ARQUIVO_DADOS);
+    fwrite(&raiz, sizeof(int), 1, arvore);
+    fwrite(&qtd, sizeof(int), 1, arvore);
+    fwrite(&pag, sizeof(Pagina), 1, arvore);
+    fclose(arvore);
+}
+
 Pagina criaPaginaVazia() {
     Pagina *pag = (Pagina *)malloc(sizeof(Pagina));
     pag->numeroDeChaves = 0;

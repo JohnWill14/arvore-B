@@ -29,12 +29,9 @@ int qtd = 0;
 void geraArvoreB(char *nomeArquivo) {
     int numero;
     int raiz = 0;
-    Pagina pag = criaPaginaVazia();
+
     FILE *arquivoDados = abreArquivo(nomeArquivo);
-    FILE *arvore = criaArquivoEscrita(ARQUIVO_DADOS);
-    fwrite(&raiz, sizeof(int), 1, arvore);
-    fwrite(&pag, sizeof(Pagina), 1, arvore);
-    fclose(arvore);
+    geraNovaArvore();
 
     int chavePromovida, filhoDireita;
     while (leiaIntDasChaves(arquivoDados, &numero) != EOF) {
@@ -113,7 +110,6 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
 
     int meio = ORDEM_ARVORE_B / 2;
 
-
     for (int i = 0; i < tam; i++) {
         if (i < meio) {
             pag->chaves[i] = paux.chaves[i];
@@ -141,7 +137,7 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     *chavePromovida = paux.chaves[meio];
 
     pag->numeroDeChaves = meio;
-    novaPagina->numeroDeChaves = ORDEM_ARVORE_B%2==0? meio - 1:meio;
+    novaPagina->numeroDeChaves = ORDEM_ARVORE_B % 2 == 0 ? meio - 1 : meio;
 
     qtd += 1;
     *rrn = qtd;
