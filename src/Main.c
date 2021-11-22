@@ -20,7 +20,7 @@ bool stringEquals(char*, char*);
 
  Então, se você encontrar alguma gambiarra e com certeza vai 
  apenas confia nelas.
- total de gambiarras: 6
+ total de gambiarras: no minimo 78
 */
 
 int main(int argc, char* argv[]) {
