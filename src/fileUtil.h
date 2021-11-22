@@ -8,6 +8,7 @@ FILE *criaArquivoEscrita(char *);
 FILE *abreArquivo(char *);
 
 int leiaIntDasChaves(FILE *, int *);
+int byteOffsetApartirDoRRN(int);
 
 int leiaIntDasChaves(FILE *file, int *num) {
     return fscanf(file, "%d|", num);
@@ -47,6 +48,10 @@ FILE *abreArquivo(char *nomeArquivo) {
     }
 
     return arquivo;
+}
+
+int byteOffsetApartirDoRRN(int rrn) {
+    return 2 * sizeof(int) + (rrn * sizeof(Pagina));
 }
 
 #endif

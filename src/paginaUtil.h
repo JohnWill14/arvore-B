@@ -17,7 +17,6 @@ bool busca(int, int, int *, int *);
 bool buscaNaPagina(int, Pagina, int *);
 void escrevePagina(Pagina, int);
 void exibePagina(Pagina);
-int byteOffsetApartirDoRRN(int);
 
 void geraNovaArvore() {
     int raiz = 0, qtd = 0;
@@ -191,8 +190,6 @@ void exibePaginaAuxiliar(PaginaAuxiliar pag) {
     puts("\n------------------\n ");
 }
 
-int byteOffsetApartirDoRRN(int rrn) {
-    return sizeof(int) + (rrn * sizeof(Pagina));
-}
+
 
 #endif
