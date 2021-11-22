@@ -7,19 +7,19 @@
 FILE *criaArquivoEscrita(char *);
 FILE *abreArquivo(char *);
 
-int raiz();
+int raizArvoreB();
 int quantidade();
-int alteraRaiz(int);
+int alteraraizArvoreB(int);
 int alteraQuantidade(int);
 int leiaIntDasChaves(FILE *, int *);
 int byteOffsetApartirDoRRN(int);
 
-int raiz() {
-    int raiz;
+int raizArvoreB() {
+    int raizArvoreB;
     FILE *file = abreArquivo(ARQUIVO_DADOS);
-    fread(&raiz, sizeof(int), 1, file);
+    fread(&raizArvoreB, sizeof(int), 1, file);
     fclose(file);
-    return raiz;
+    return raizArvoreB;
 }
 
 int quantidade() {
@@ -31,7 +31,7 @@ int quantidade() {
     return qtd;
 }
 
-int alteraRaiz(int valor) {
+int alteraraizArvoreB(int valor) {
     FILE *file = abreArquivo(ARQUIVO_DADOS);
     fwrite(&valor, sizeof(int), 1, file);
     fclose(file);

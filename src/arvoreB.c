@@ -37,7 +37,7 @@ void geraArvoreB(char *nomeArquivo) {
     // printf("qtd %d\n ----\n", quantidade());
 
     int numero;
-    int raiz = 0;
+    int raiz = raizArvoreB();
 
     FILE *arquivoDados = abreArquivo(nomeArquivo);
     geraNovaArvore();
@@ -52,17 +52,19 @@ void geraArvoreB(char *nomeArquivo) {
             novapag.filhos[1] = filhoDireita;
             novapag.numeroDeChaves = 1;
             qtd += 1;
-            escrevePagina(novapag, qtd);
-            raiz = qtd;
+            //escrevePagina(novapag, qtd);
+            adicionaNovaPagina(novapag, qtd);
+            raiz = quantidade() - 1;
         }
     }
 
-    for (int i = 0; i <= qtd; i++) {
+    for (int i = 0; i < quantidade(); i++) {
         Pagina pag = getPaginaPeloRRN(i);
         printf("Pagina: %d\n", i);
         exibePagina(pag);
     }
     printf("RAIZ %d\n", raiz);
+    printf("QTD: %d\n", quantidade());
     fclose(arquivoDados);
 }
 
@@ -96,7 +98,7 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
 
     if (pag.numeroDeChaves < ORDEM_ARVORE_B - 1) {
         pag = inseriNaPagina(*chavePromovida, *filhoDireita, pag);
-        escrevePagina(pag, rrn);
+        atualizaPagina(pag, rrn);
 
         return SEM_PROMOCAO;
     } else {
@@ -105,8 +107,9 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
         divide(*chavePromovida, *filhoDireita, &pag, &beatriz, filhoDireita, &pagaux);
         *chavePromovida = beatriz;
 
-        escrevePagina(pag, rrn);
-        escrevePagina(pagaux, *filhoDireita);
+        atualizaPagina(pag, rrn);
+        // escrevePagina(pagaux, *filhoDireita);
+        adicionaNovaPagina(pagaux, *filhoDireita);
         return PROMOCAO;
     }
 }

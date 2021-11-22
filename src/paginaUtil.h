@@ -15,11 +15,13 @@ Pagina inseriNaPagina(int, int, Pagina);
 void inseriChavePaginaAuxiliar(int, int, PaginaAuxiliar *);
 bool busca(int, int, int *, int *);
 bool buscaNaPagina(int, Pagina, int *);
+void atualizaPagina(Pagina, int);
+void adicionaNovaPagina(Pagina, int);
 void escrevePagina(Pagina, int);
 void exibePagina(Pagina);
 
 void geraNovaArvore() {
-    int raiz = 0, qtd = 0;
+    int raiz = 0, qtd = 1;
     Pagina pag = criaPaginaVazia();
     FILE *arvore = criaArquivoEscrita(ARQUIVO_DADOS);
     fwrite(&raiz, sizeof(int), 1, arvore);
@@ -145,6 +147,15 @@ bool buscaNaPagina(int chave, Pagina pag, int *pos) {
     return false;
 }
 
+void atualizaPagina(Pagina pag, int rrn) {
+    escrevePagina(pag, rrn);
+}
+void adicionaNovaPagina(Pagina pag, int rrn){
+    int qtd = quantidade();
+    escrevePagina(pag, qtd);
+    alteraQuantidade(qtd+1);
+}
+
 void escrevePagina(Pagina pag, int rrn) {
     FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
     fseek(arquiArvoreB, byteOffsetApartirDoRRN(rrn), SEEK_SET);
@@ -189,7 +200,5 @@ void exibePaginaAuxiliar(PaginaAuxiliar pag) {
     }
     puts("\n------------------\n ");
 }
-
-
 
 #endif
