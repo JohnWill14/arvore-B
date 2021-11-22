@@ -27,6 +27,15 @@ Codigos inseriChave(int, int, int *, int *);
 int qtd = 0;
 
 void geraArvoreB(char *nomeArquivo) {
+    // printf("raiz %d\n", raiz());
+    // printf("qtd %d\n ----\n", quantidade());
+
+    // alteraRaiz(5);
+    // alteraQuantidade(25);
+
+    // printf("raiz %d\n", raiz());
+    // printf("qtd %d\n ----\n", quantidade());
+
     int numero;
     int raiz = 0;
 

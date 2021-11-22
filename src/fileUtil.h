@@ -7,8 +7,44 @@
 FILE *criaArquivoEscrita(char *);
 FILE *abreArquivo(char *);
 
+int raiz();
+int quantidade();
+int alteraRaiz(int);
+int alteraQuantidade(int);
 int leiaIntDasChaves(FILE *, int *);
 int byteOffsetApartirDoRRN(int);
+
+int raiz() {
+    int raiz;
+    FILE *file = abreArquivo(ARQUIVO_DADOS);
+    fread(&raiz, sizeof(int), 1, file);
+    fclose(file);
+    return raiz;
+}
+
+int quantidade() {
+    int qtd;
+    FILE *file = abreArquivo(ARQUIVO_DADOS);
+    fseek(file, sizeof(int), SEEK_SET);
+    fread(&qtd, sizeof(int), 1, file);
+    fclose(file);
+    return qtd;
+}
+
+int alteraRaiz(int valor) {
+    FILE *file = abreArquivo(ARQUIVO_DADOS);
+    fwrite(&valor, sizeof(int), 1, file);
+    fclose(file);
+    return valor;
+}
+
+int alteraQuantidade(int valor) {
+    FILE *file = abreArquivo(ARQUIVO_DADOS);
+    fseek(file, sizeof(int), SEEK_SET);
+    fwrite(&valor, sizeof(int), 1, file);
+    fclose(file);
+    return valor;
+}
 
 int leiaIntDasChaves(FILE *file, int *num) {
     return fscanf(file, "%d|", num);
@@ -22,7 +58,7 @@ FILE *criaArquivoEscrita(char *nomeArquivo) {
 
         URL: https://stackoverflow.com/questions/21113919/difference-between-r-and-w-in-fopen
     */
-    FILE *arquivo = fopen(nomeArquivo, "w");
+    FILE *arquivo = fopen(nomeArquivo, "w+");
 
     if (arquivo == NULL) {
         fprintf(stderr, "Nao foi possivel abrir o aquivo %s\n", nomeArquivo);
