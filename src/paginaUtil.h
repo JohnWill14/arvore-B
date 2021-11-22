@@ -183,7 +183,7 @@ void exibePagina(Pagina pag) {
             printf(" | ");
         }
     }
-    puts("\n\n");
+    puts("\n");
 }
 
 void exibePaginaAuxiliar(PaginaAuxiliar pag) {

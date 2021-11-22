@@ -9,7 +9,7 @@ FILE *abreArquivo(char *);
 
 int raizArvoreB();
 int quantidade();
-int alteraraizArvoreB(int);
+int alteraRaizArvoreB(int);
 int alteraQuantidade(int);
 int leiaIntDasChaves(FILE *, int *);
 int byteOffsetApartirDoRRN(int);
@@ -31,7 +31,7 @@ int quantidade() {
     return qtd;
 }
 
-int alteraraizArvoreB(int valor) {
+int alteraRaizArvoreB(int valor) {
     FILE *file = abreArquivo(ARQUIVO_DADOS);
     fwrite(&valor, sizeof(int), 1, file);
     fclose(file);

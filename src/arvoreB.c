@@ -21,54 +21,54 @@ typedef enum {
     NAO_ENCONTRADO
 } Codigos;
 
-void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina);
 Codigos inseriChave(int, int, int *, int *);
+void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina);
 
-int qtd = 0;
+int quantidadePaginas = 0;
 
 void geraArvoreB(char *nomeArquivo) {
-    // printf("raiz %d\n", raiz());
-    // printf("qtd %d\n ----\n", quantidade());
-
-    // alteraRaiz(5);
-    // alteraQuantidade(25);
-
-    // printf("raiz %d\n", raiz());
-    // printf("qtd %d\n ----\n", quantidade());
-
-    int numero;
+    int valorEntrada;
+    geraNovaArvore();
     int raiz = raizArvoreB();
 
     FILE *arquivoDados = abreArquivo(nomeArquivo);
-    geraNovaArvore();
 
     int chavePromovida, filhoDireita;
-    while (leiaIntDasChaves(arquivoDados, &numero) != EOF) {
-        Codigos c = inseriChave(raiz, numero, &chavePromovida, &filhoDireita);
+    while (leiaIntDasChaves(arquivoDados, &valorEntrada) != EOF) {
+        Codigos c = inseriChave(raiz, valorEntrada, &chavePromovida, &filhoDireita);
         if (c == PROMOCAO) {
             Pagina novapag = criaPaginaVazia();
             novapag.chaves[0] = chavePromovida;
             novapag.filhos[0] = raiz;
             novapag.filhos[1] = filhoDireita;
             novapag.numeroDeChaves = 1;
-            qtd += 1;
-            //escrevePagina(novapag, qtd);
-            adicionaNovaPagina(novapag, qtd);
+            quantidadePaginas += 1;
+            //escrevePagina(novapag, quantidadePaginas);
+            adicionaNovaPagina(novapag, quantidadePaginas);
             raiz = quantidade() - 1;
+            alteraRaizArvoreB(raiz);
         }
     }
 
-    for (int i = 0; i < quantidade(); i++) {
-        Pagina pag = getPaginaPeloRRN(i);
-        printf("Pagina: %d\n", i);
-        exibePagina(pag);
-    }
-    printf("RAIZ %d\n", raiz);
-    printf("QTD: %d\n", quantidade());
     fclose(arquivoDados);
 }
 
 void imprimeArvoreB() {
+    int raiz = raizArvoreB();
+
+    for (int i = 0; i < quantidade(); i++) {
+        Pagina pag = getPaginaPeloRRN(i);
+        if (raiz == i) {
+            puts("- - - - Pagina Raiz - - - -\n");
+        }
+        printf("Pagina: %d\n", i);
+        exibePagina(pag);
+        if (raiz == i) {
+            puts("- - - - - - - - - - - - - -\n");
+        }
+    }
+    printf("RAIZ %d\n", raiz);
+    printf("quantidadePaginas: %d\n", quantidade());
 }
 
 void mostraChavesOrdenadasArvoreB() {
@@ -98,7 +98,7 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
 
     if (pag.numeroDeChaves < ORDEM_ARVORE_B - 1) {
         pag = inseriNaPagina(*chavePromovida, *filhoDireita, pag);
-        atualizaPagina(pag, rrn);
+        escrevePagina(pag, rrn);
 
         return SEM_PROMOCAO;
     } else {
@@ -151,6 +151,6 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     pag->numeroDeChaves = meio;
     novaPagina->numeroDeChaves = ORDEM_ARVORE_B % 2 == 0 ? meio - 1 : meio;
 
-    qtd += 1;
-    *rrn = qtd;
+    quantidadePaginas += 1;
+    *rrn = quantidadePaginas;
 }
