@@ -48,12 +48,12 @@ void geraArvoreB(char *nomeArquivo) {
             qtd += 1;
             escrevePagina(novapag, qtd);
             raiz = qtd;
-            printf("raiz %d\n", raiz);
         }
     }
 
     for (int i = 0; i <= qtd; i++) {
         Pagina pag = getPaginaPeloRRN(i);
+        printf("Pagina: %d\n", i);
         exibePagina(pag);
     }
     printf("RAIZ %d\n", raiz);
@@ -95,7 +95,9 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
         return SEM_PROMOCAO;
     } else {
         Pagina pagaux = criaPaginaVazia();
-        divide(chave, *filhoDireita, &pag, chavePromovida, filhoDireita, &pagaux);
+        int beatriz;
+        divide(*chavePromovida, *filhoDireita, &pag, &beatriz, filhoDireita, &pagaux);
+        *chavePromovida = beatriz;
 
         escrevePagina(pag, rrn);
         escrevePagina(pagaux, *filhoDireita);
@@ -111,44 +113,36 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
 
     int meio = ORDEM_ARVORE_B / 2;
 
-    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+
+    for (int i = 0; i < tam; i++) {
         if (i < meio) {
             pag->chaves[i] = paux.chaves[i];
-        } else
+        } else {
             pag->chaves[i] = -1;
+        }
     }
 
-    for (int i = 0; i < ORDEM_ARVORE_B + 1; i++) {
-        if (i < meio )
+    for (int i = 0; i < tam + 1; i++) {
+        if (i <= meio) {
             pag->filhos[i] = paux.filhos[i];
-        else
-            pag->chaves[i] = -1;
+        } else {
+            pag->filhos[i] = -1;
+        }
     }
 
     for (int i = meio + 1; i < ORDEM_ARVORE_B; i++) {
-        int j = i - (meio + 1);
-        novaPagina->chaves[j] = paux.chaves[i];
+        novaPagina->chaves[i - (meio + 1)] = paux.chaves[i];
     }
 
-    for (int i = meio ; i < ORDEM_ARVORE_B; i++) {
-        int j = i - (meio + 1);
-        novaPagina->chaves[j] = paux.filhos[i];
+    for (int i = meio + 1; i < ORDEM_ARVORE_B + 1; i++) {
+        novaPagina->filhos[i - (meio + 1)] = paux.filhos[i];
     }
-
-    novaPagina->filhos[meio] = paux.filhos[tam + 1];
 
     *chavePromovida = paux.chaves[meio];
 
     pag->numeroDeChaves = meio;
-    novaPagina->numeroDeChaves = meio - 1;
+    novaPagina->numeroDeChaves = ORDEM_ARVORE_B%2==0? meio - 1:meio;
 
     qtd += 1;
     *rrn = qtd;
-
-    printf("\nMEIO: %d - VALOR: %d\n", meio, *chavePromovida);
-    exibePaginaAuxiliar(paux);
-    // puts("Pagina antiga:");
-    // exibePagina(*pag);
-    // puts("Pagina nova:");
-    // exibePagina(*novaPagina);
 }

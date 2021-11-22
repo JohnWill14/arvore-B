@@ -144,18 +144,26 @@ void escrevePagina(Pagina pag, int rrn) {
 }
 
 void exibePagina(Pagina pag) {
-    puts("\n------------------");
-    printf("Numero elementos: %d", pag.numeroDeChaves);
-    printf("\nchaves: ");
-    for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
-        printf("%d |", pag.chaves[i]);
+    printf("chaves: ");
+    for (int i = 0; i < pag.numeroDeChaves; i++) {
+        printf("%d", pag.chaves[i]);
+        if (i == pag.numeroDeChaves - 1) {
+            printf("\n");
+        } else {
+            printf(" | ");
+        }
     }
 
-    printf("\nfilhos: ");
-    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
-        printf("%d |", pag.filhos[i]);
+    printf("filhos: ");
+    for (int i = 0; i < pag.numeroDeChaves + 1; i++) {
+        printf("%d", pag.filhos[i]);
+        if (i == pag.numeroDeChaves) {
+            printf("\n");
+        } else {
+            printf(" | ");
+        }
     }
-    puts("\n------------------\n ");
+    puts("\n\n");
 }
 
 void exibePaginaAuxiliar(PaginaAuxiliar pag) {
