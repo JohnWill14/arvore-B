@@ -19,9 +19,9 @@ typedef enum {
     SEM_PROMOCAO,
     ENCONTRADO,
     NAO_ENCONTRADO
-} Codigos;
+} Codigo;
 
-Codigos inseriChave(int, int, int *, int *);
+Codigo inseriChave(int, int, int *, int *);
 void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina);
 void imprimiEmOrdem(int);
 
@@ -34,7 +34,7 @@ void geraArvoreB(char *nomeArquivo) {
 
     int chavePromovida, filhoDireita;
     while (leiaIntDasChaves(arquivoDados, &valorEntrada) != EOF) {
-        Codigos c = inseriChave(raiz, valorEntrada, &chavePromovida, &filhoDireita);
+        Codigo c = inseriChave(raiz, valorEntrada, &chavePromovida, &filhoDireita);
         if (c == PROMOCAO) {
             Pagina novapag = criaPaginaVazia();
             novapag.chaves[0] = chavePromovida;
@@ -42,7 +42,7 @@ void geraArvoreB(char *nomeArquivo) {
             novapag.filhos[1] = filhoDireita;
             novapag.numeroDeChaves = 1;
             adicionaNovaPagina(novapag);
-            raiz = quantidade() - 1;
+            raiz = quantidadePagina() - 1;
             alteraRaizArvoreB(raiz);
         }
     }
@@ -53,7 +53,7 @@ void geraArvoreB(char *nomeArquivo) {
 void imprimeArvoreB() {
     int raiz = raizArvoreB();
 
-    for (int i = 0; i < quantidade(); i++) {
+    for (int i = 0; i < quantidadePagina(); i++) {
         Pagina pag = getPaginaPeloRRN(i);
         if (raiz == i) {
             puts("- - - - Pagina Raiz - - - -\n");
@@ -64,12 +64,14 @@ void imprimeArvoreB() {
             puts("- - - - - - - - - - - - - -\n");
         }
     }
-    printf("RAIZ %d\n", raiz);
-    printf("quantidadePaginas: %d\n", quantidade());
+
+    puts("= = = = = = = = = = = = = =\n");
+    printf("raiz: %d\n", raiz);
+    printf("quantidade de paginas: %d\n", quantidadePagina());
+    puts("= = = = = = = = = = = = = =\n");
 }
 
 void mostraChavesOrdenadasArvoreB() {
-    abreArquivo(ARQUIVO_DADOS);
     imprimiEmOrdem(raizArvoreB());
 }
 
@@ -85,7 +87,7 @@ void imprimiEmOrdem(int pag) {
     imprimiEmOrdem(pagina.filhos[i]);
 }
 
-Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
+Codigo inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
     if (rrn < 0) {
         *chavePromovida = chave;
         *filhoDireita = -1;
@@ -101,7 +103,7 @@ Codigos inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) 
         return ERRO;
     }
 
-    Codigos codigo = inseriChave(pag.filhos[pos], chave, chavePromovida, filhoDireita);
+    Codigo codigo = inseriChave(pag.filhos[pos], chave, chavePromovida, filhoDireita);
 
     if (codigo == ERRO || codigo == SEM_PROMOCAO) {
         return codigo;
@@ -131,7 +133,7 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     inseriChavePaginaAuxiliar(chave, filhoDireita, &paux);
 
     int meio = ORDEM_ARVORE_B / 2;
-
+    
     for (int i = 0; i < tam; i++) {
         if (i < meio) {
             pag->chaves[i] = paux.chaves[i];
@@ -157,9 +159,9 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     }
 
     *chavePromovida = paux.chaves[meio];
-
+    
     pag->numeroDeChaves = meio;
     novaPagina->numeroDeChaves = ORDEM_ARVORE_B % 2 == 0 ? meio - 1 : meio;
 
-    *rrn = quantidade();
+    *rrn = quantidadePagina();
 }

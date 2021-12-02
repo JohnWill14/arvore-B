@@ -114,27 +114,6 @@ void inseriChavePaginaAuxiliar(int chave, int filhoDireita, PaginaAuxiliar *pag)
     pag->numeroDeChaves += 1;
 }
 
-bool busca(int rrn, int chave, int *rrn_encontrado, int *pos_encontrada) {
-    if (rrn < 0) {
-        return false;
-    }
-    Pagina pag;
-    int pos;
-
-    pag = getPaginaPeloRRN(rrn);
-
-    bool encontrado = buscaNaPagina(chave, pag, &pos);
-
-    if (encontrado) {
-        *rrn_encontrado = rrn;
-        *pos_encontrada = pos;
-
-        return true;
-    }
-
-    return busca(pag.filhos[pos], chave, rrn_encontrado, pos_encontrada);
-}
-
 bool buscaNaPagina(int chave, Pagina pag, int *pos) {
     int i = 0;
     while (i < pag.numeroDeChaves && chave >= pag.chaves[i]) {
@@ -150,8 +129,9 @@ bool buscaNaPagina(int chave, Pagina pag, int *pos) {
 void atualizaPagina(Pagina pag, int rrn) {
     escrevePagina(pag, rrn);
 }
+
 void adicionaNovaPagina(Pagina pag){
-    int qtd = quantidade();
+    int qtd = quantidadePagina();
     escrevePagina(pag, qtd);
     alteraQuantidade(qtd+1);
 }
@@ -186,19 +166,5 @@ void exibePagina(Pagina pag) {
     puts("\n");
 }
 
-void exibePaginaAuxiliar(PaginaAuxiliar pag) {
-    puts("\n--------AUXILIAR----------");
-    printf("Numero elementos: %d", pag.numeroDeChaves);
-    printf("\nchaves: ");
-    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
-        printf("%d |", pag.chaves[i]);
-    }
-
-    printf("\nfilhos: ");
-    for (int i = 0; i < ORDEM_ARVORE_B + 1; i++) {
-        printf("%d |", pag.filhos[i]);
-    }
-    puts("\n------------------\n ");
-}
 
 #endif

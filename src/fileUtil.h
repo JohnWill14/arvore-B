@@ -8,7 +8,7 @@ FILE *criaArquivoEscrita(char *);
 FILE *abreArquivo(char *);
 
 int raizArvoreB();
-int quantidade();
+int quantidadePagina();
 int alteraRaizArvoreB(int);
 int alteraQuantidade(int);
 int leiaIntDasChaves(FILE *, int *);
@@ -22,7 +22,7 @@ int raizArvoreB() {
     return raizArvoreB;
 }
 
-int quantidade() {
+int quantidadePagina() {
     int qtd;
     FILE *file = abreArquivo(ARQUIVO_DADOS);
     fseek(file, sizeof(int), SEEK_SET);
