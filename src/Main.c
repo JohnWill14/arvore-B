@@ -1,8 +1,8 @@
 /*
- * Autores: 
+ * Autores:
  *  - John William Vicente <ra118237@uem.br>
  *  - Gabriel Valentim de Oliveira Dacie <ra118419@uem.br>
-*/
+ */
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -18,7 +18,7 @@ bool stringEquals(char*, char*);
  apenas nos e Deus sabíamos como ele funcionava.
  Agora, apenas Deus sabe!
 
- Então, se você encontrar alguma gambiarra e com certeza vai 
+ Então, se você encontrar alguma gambiarra e com certeza vai
  apenas confia nelas.
  total de gambiarras: no minimo 78
  Obs: perdemos a conta 😨😨😨
@@ -28,11 +28,12 @@ int main(int argc, char* argv[]) {
     if (argc == 3 && stringEquals(argv[1], "-c")) {
         puts("Modo criacao");
         geraArvoreB(argv[2]);
+        puts("Sucesso !!!");
     } else if (argc == 2 && stringEquals(argv[1], "-p")) {
-        puts("Modo Informação");
+        puts("Modo Impressao");
         imprimeArvoreB();
     } else if (argc == 2 && stringEquals(argv[1], "-k")) {
-        puts("Modo Impressao");
+        puts("Modo chaves ordenadas");
         mostraChavesOrdenadasArvoreB();
     } else {
         fprintf(stderr, "Argumentos incorretos!\n");

@@ -1,8 +1,8 @@
 /*
- * Autores: 
+ * Autores:
  *  - John William Vicente <ra118237@uem.br>
  *  - Gabriel Valentim de Oliveira Dacie <ra118419@uem.br>
-*/
+ */
 
 #include "arvoreB.h"
 
@@ -35,12 +35,15 @@ void geraArvoreB(char *nomeArquivo) {
     int chavePromovida, filhoDireita;
     while (leiaIntDasChaves(arquivoDados, &valorEntrada) != EOF) {
         Codigo c = inseriChave(raiz, valorEntrada, &chavePromovida, &filhoDireita);
+
         if (c == PROMOCAO) {
             Pagina novapag = criaPaginaVazia();
+
             novapag.chaves[0] = chavePromovida;
             novapag.filhos[0] = raiz;
             novapag.filhos[1] = filhoDireita;
             novapag.numeroDeChaves = 1;
+
             adicionaNovaPagina(novapag);
             raiz = quantidadePagina() - 1;
             alteraRaizArvoreB(raiz);
@@ -48,43 +51,6 @@ void geraArvoreB(char *nomeArquivo) {
     }
 
     fclose(arquivoDados);
-}
-
-void imprimeArvoreB() {
-    int raiz = raizArvoreB();
-
-    for (int i = 0; i < quantidadePagina(); i++) {
-        Pagina pag = getPaginaPeloRRN(i);
-        if (raiz == i) {
-            puts("- - - - Pagina Raiz - - - -\n");
-        }
-        printf("Pagina: %d\n", i);
-        exibePagina(pag);
-        if (raiz == i) {
-            puts("- - - - - - - - - - - - - -\n");
-        }
-    }
-
-    puts("= = = = = = = = = = = = = =\n");
-    printf("raiz: %d\n", raiz);
-    printf("quantidade de paginas: %d\n", quantidadePagina());
-    puts("= = = = = = = = = = = = = =\n");
-}
-
-void mostraChavesOrdenadasArvoreB() {
-    imprimiEmOrdem(raizArvoreB());
-}
-
-void imprimiEmOrdem(int pag) {
-    if (pag < 0) return;
-    Pagina pagina = getPaginaPeloRRN(pag);
-    int i;
-    for (i = 0; i < pagina.numeroDeChaves; i++) {
-        imprimiEmOrdem(pagina.filhos[i]);
-        printf("%02d | ", pagina.chaves[i]);
-    }
-
-    imprimiEmOrdem(pagina.filhos[i]);
 }
 
 Codigo inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
@@ -116,9 +82,9 @@ Codigo inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
         return SEM_PROMOCAO;
     } else {
         Pagina pagaux = criaPaginaVazia();
-        int beatriz;
-        divide(*chavePromovida, *filhoDireita, &pag, &beatriz, filhoDireita, &pagaux);
-        *chavePromovida = beatriz;
+        // int beatriz;
+        divide(*chavePromovida, *filhoDireita, &pag, chavePromovida, filhoDireita, &pagaux);
+        // *chavePromovida = beatriz;
 
         atualizaPagina(pag, rrn);
         adicionaNovaPagina(pagaux);
@@ -133,7 +99,10 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     inseriChavePaginaAuxiliar(chave, filhoDireita, &paux);
 
     int meio = ORDEM_ARVORE_B / 2;
-    
+
+    resetaPagina(pag);
+    resetaPagina(novaPagina);
+
     for (int i = 0; i < tam; i++) {
         if (i < meio) {
             pag->chaves[i] = paux.chaves[i];
@@ -159,9 +128,49 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     }
 
     *chavePromovida = paux.chaves[meio];
-    
+
     pag->numeroDeChaves = meio;
     novaPagina->numeroDeChaves = ORDEM_ARVORE_B % 2 == 0 ? meio - 1 : meio;
 
-    *rrn = quantidadePagina();
+    *rrn = rnnNovaPagina();
+}
+
+void imprimeArvoreB() {
+    int raiz = raizArvoreB();
+
+    for (int i = 0; i < quantidadePagina(); i++) {
+        Pagina pag = getPaginaPeloRRN(i);
+        if (raiz == i) {
+            puts("- - - - Pagina Raiz - - - -\n");
+        }
+        printf("Pagina: %d\n", i);
+        exibePagina(pag);
+        if (raiz == i) {
+            puts("- - - - - - - - - - - - - -\n");
+        }
+    }
+
+    puts("= = = = = = = = = = = = = =\n");
+    printf("raiz: %d\n", raiz);
+    printf("quantidade de paginas: %d\n", quantidadePagina());
+    puts("= = = = = = = = = = = = = =\n");
+}
+
+void mostraChavesOrdenadasArvoreB() {
+    printf("Chaves em ordem => ");
+    imprimiEmOrdem(raizArvoreB());
+    printf("\n");
+}
+
+void imprimiEmOrdem(int rrn) {
+    if (rrn == -1) return;
+    Pagina pagina = getPaginaPeloRRN(rrn);
+    int i;
+
+    for (i = 0; i < pagina.numeroDeChaves; i++) {
+        imprimiEmOrdem(pagina.filhos[i]);
+        printf("%02d - ", pagina.chaves[i]);
+    }
+
+    imprimiEmOrdem(pagina.filhos[i]);
 }

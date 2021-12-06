@@ -17,6 +17,7 @@ bool busca(int, int, int *, int *);
 bool buscaNaPagina(int, Pagina, int *);
 void atualizaPagina(Pagina, int);
 void adicionaNovaPagina(Pagina);
+int rnnNovaPagina();
 void escrevePagina(Pagina, int);
 void exibePagina(Pagina);
 
@@ -24,9 +25,11 @@ void geraNovaArvore() {
     int raiz = 0, qtd = 1;
     Pagina pag = criaPaginaVazia();
     FILE *arvore = criaArquivoEscrita(ARQUIVO_DADOS);
+
     fwrite(&raiz, sizeof(int), 1, arvore);
     fwrite(&qtd, sizeof(int), 1, arvore);
     fwrite(&pag, sizeof(Pagina), 1, arvore);
+
     fclose(arvore);
 }
 
@@ -47,9 +50,10 @@ Pagina criaPaginaVazia() {
 
 PaginaAuxiliar criaPaginaAuxiliarVazia() {
     PaginaAuxiliar *pag = (PaginaAuxiliar *)malloc(sizeof(Pagina));
+    pag->numeroDeChaves = 0;
 
     for (int i = 0; i < ORDEM_ARVORE_B; i++) {
-        pag->chaves[i] = -1;
+        pag->chaves[i] = 0;
     }
 
     for (int i = 0; i < ORDEM_ARVORE_B + 1; i++) {
@@ -59,15 +63,29 @@ PaginaAuxiliar criaPaginaAuxiliarVazia() {
     return *pag;
 }
 
+void resetaPagina(Pagina *pag) {
+    pag->numeroDeChaves = 0;
+
+    for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
+        pag->chaves[i] = 0;
+    }
+
+    for (int i = 0; i < ORDEM_ARVORE_B; i++) {
+        pag->filhos[i] = -1;
+    }
+}
+
 PaginaAuxiliar copiaPaginaParaAuxiliar(Pagina *pagina) {
     PaginaAuxiliar paux;
 
     for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
         paux.chaves[i] = pagina->chaves[i];
     }
+
     for (int i = 0; i < ORDEM_ARVORE_B; i++) {
         paux.filhos[i] = pagina->filhos[i];
     }
+
     paux.numeroDeChaves = ORDEM_ARVORE_B - 1;
 
     return paux;
@@ -130,24 +148,32 @@ void atualizaPagina(Pagina pag, int rrn) {
     escrevePagina(pag, rrn);
 }
 
-void adicionaNovaPagina(Pagina pag){
-    int qtd = quantidadePagina();
+void adicionaNovaPagina(Pagina pag) {
+    int qtd = rnnNovaPagina();
     escrevePagina(pag, qtd);
-    alteraQuantidade(qtd+1);
+    alteraQuantidade(qtd + 1);
+}
+
+int rnnNovaPagina() {
+    return quantidadePagina();
 }
 
 void escrevePagina(Pagina pag, int rrn) {
     FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
+
     fseek(arquiArvoreB, byteOffsetApartirDoRRN(rrn), SEEK_SET);
     fwrite(&pag, sizeof(Pagina), 1, arquiArvoreB);
+
     fclose(arquiArvoreB);
 }
 
 void exibePagina(Pagina pag) {
     printf("chaves: ");
-    for (int i = 0; i < pag.numeroDeChaves; i++) {
-        printf("%d", pag.chaves[i]);
-        if (i == pag.numeroDeChaves - 1) {
+
+    for (int i = 0; i < ORDEM_ARVORE_B - 1 /*pag.numeroDeChaves*/; i++) {
+        printf("%02d", pag.chaves[i]);
+
+        if (i == ORDEM_ARVORE_B - 2 /*pag.numeroDeChaves-1*/) {
             printf("\n");
         } else {
             printf(" | ");
@@ -155,9 +181,11 @@ void exibePagina(Pagina pag) {
     }
 
     printf("filhos: ");
-    for (int i = 0; i < pag.numeroDeChaves + 1; i++) {
-        printf("%d", pag.filhos[i]);
-        if (i == pag.numeroDeChaves) {
+
+    for (int i = 0; i < ORDEM_ARVORE_B /*pag.numeroDeChaves + 1*/; i++) {
+        printf("%02d", pag.filhos[i]);
+
+        if (i == ORDEM_ARVORE_B - 1 /*pag.numeroDeChaves*/) {
             printf("\n");
         } else {
             printf(" | ");
@@ -165,6 +193,5 @@ void exibePagina(Pagina pag) {
     }
     puts("\n");
 }
-
 
 #endif

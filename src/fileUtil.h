@@ -17,7 +17,9 @@ int byteOffsetApartirDoRRN(int);
 int raizArvoreB() {
     int raizArvoreB;
     FILE *file = abreArquivo(ARQUIVO_DADOS);
+
     fread(&raizArvoreB, sizeof(int), 1, file);
+
     fclose(file);
     return raizArvoreB;
 }
@@ -25,16 +27,20 @@ int raizArvoreB() {
 int quantidadePagina() {
     int qtd;
     FILE *file = abreArquivo(ARQUIVO_DADOS);
+
     fseek(file, sizeof(int), SEEK_SET);
     fread(&qtd, sizeof(int), 1, file);
+
     fclose(file);
     return qtd;
 }
 
 int alteraRaizArvoreB(int valor) {
     FILE *file = abreArquivo(ARQUIVO_DADOS);
+
     fwrite(&valor, sizeof(int), 1, file);
     fclose(file);
+    
     return valor;
 }
 
