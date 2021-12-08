@@ -4,12 +4,11 @@
  *  - Gabriel Valentim de Oliveira Dacie <ra118419@uem.br>
  */
 
-#include "arvoreB.h"
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "arvoreB.h"
 #include "fileUtil.h"
 #include "paginaUtil.h"
 
@@ -21,13 +20,18 @@ typedef enum {
     NAO_ENCONTRADO
 } Codigo;
 
+void geraArvoreB(char *);
+void imprimeArvoreB();
+void mostraChavesOrdenadasArvoreB();
+
 Codigo inseriChave(int, int, int *, int *);
 void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *rrn, Pagina *novaPagina);
 void imprimiEmOrdem(int);
 
 void geraArvoreB(char *nomeArquivo) {
-    int valorEntrada;
     geraNovaArvore();
+
+    int valorEntrada;
     int raiz = raizArvoreB();
 
     FILE *arquivoDados = abreArquivo(nomeArquivo);
@@ -62,7 +66,7 @@ Codigo inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
     }
 
     int pos = 0;
-    Pagina pag = getPaginaPeloRRN(rrn);
+    Pagina pag = lePaginaPeloRRN(rrn);
     bool encontrada = buscaNaPagina(chave, pag, &pos);
 
     if (encontrada) {
@@ -82,9 +86,8 @@ Codigo inseriChave(int rrn, int chave, int *chavePromovida, int *filhoDireita) {
         return SEM_PROMOCAO;
     } else {
         Pagina pagaux = criaPaginaVazia();
-        // int beatriz;
+
         divide(*chavePromovida, *filhoDireita, &pag, chavePromovida, filhoDireita, &pagaux);
-        // *chavePromovida = beatriz;
 
         atualizaPagina(pag, rrn);
         adicionaNovaPagina(pagaux);
@@ -139,7 +142,7 @@ void imprimeArvoreB() {
     int raiz = raizArvoreB();
 
     for (int i = 0; i < quantidadePagina(); i++) {
-        Pagina pag = getPaginaPeloRRN(i);
+        Pagina pag = lePaginaPeloRRN(i);
         if (raiz == i) {
             puts("- - - - Pagina Raiz - - - -\n");
         }
@@ -164,7 +167,7 @@ void mostraChavesOrdenadasArvoreB() {
 
 void imprimiEmOrdem(int rrn) {
     if (rrn == -1) return;
-    Pagina pagina = getPaginaPeloRRN(rrn);
+    Pagina pagina = lePaginaPeloRRN(rrn);
     int i;
 
     for (i = 0; i < pagina.numeroDeChaves; i++) {

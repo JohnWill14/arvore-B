@@ -40,14 +40,16 @@ int alteraRaizArvoreB(int valor) {
 
     fwrite(&valor, sizeof(int), 1, file);
     fclose(file);
-    
+
     return valor;
 }
 
 int alteraQuantidade(int valor) {
     FILE *file = abreArquivo(ARQUIVO_DADOS);
+
     fseek(file, sizeof(int), SEEK_SET);
     fwrite(&valor, sizeof(int), 1, file);
+
     fclose(file);
     return valor;
 }
@@ -93,7 +95,7 @@ FILE *abreArquivo(char *nomeArquivo) {
 }
 
 int byteOffsetApartirDoRRN(int rrn) {
-    return 2 * sizeof(int) + (rrn * sizeof(Pagina));
+    return (2 * sizeof(int)) + (rrn * sizeof(Pagina));
 }
 
 #endif

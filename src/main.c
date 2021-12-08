@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "arvoreB.c"
+#include "operacoesArvoreB.c"
 
 bool stringEquals(char*, char*);
 

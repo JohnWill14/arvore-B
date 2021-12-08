@@ -22,8 +22,5 @@ typedef struct {
     int filhos[ORDEM_ARVORE_B + 1]; /* RRNs dos filhos */
 } PaginaAuxiliar;
 
-void geraArvoreB(char*);
-void imprimeArvoreB();
-void mostraChavesOrdenadasArvoreB();
 
 #endif

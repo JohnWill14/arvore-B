@@ -9,7 +9,7 @@
 
 Pagina criaPaginaVazia();
 PaginaAuxiliar criaPaginaAuxiliarVazia();
-Pagina getPaginaPeloRRN(int);
+Pagina lePaginaPeloRRN(int);
 Pagina inseriNaPagina(int, int, Pagina);
 
 void inseriChavePaginaAuxiliar(int, int, PaginaAuxiliar *);
@@ -86,12 +86,12 @@ PaginaAuxiliar copiaPaginaParaAuxiliar(Pagina *pagina) {
         paux.filhos[i] = pagina->filhos[i];
     }
 
-    paux.numeroDeChaves = ORDEM_ARVORE_B - 1;
+    paux.numeroDeChaves = pagina->numeroDeChaves;
 
     return paux;
 }
 
-Pagina getPaginaPeloRRN(int rrn) {
+Pagina lePaginaPeloRRN(int rrn) {
     FILE *arquiArvoreB = abreArquivo(ARQUIVO_DADOS);
     Pagina pag;
 
@@ -170,10 +170,10 @@ void escrevePagina(Pagina pag, int rrn) {
 void exibePagina(Pagina pag) {
     printf("chaves: ");
 
-    for (int i = 0; i < ORDEM_ARVORE_B - 1 /*pag.numeroDeChaves*/; i++) {
+    for (int i = 0; i < pag.numeroDeChaves; i++) {
         printf("%02d", pag.chaves[i]);
 
-        if (i == ORDEM_ARVORE_B - 2 /*pag.numeroDeChaves-1*/) {
+        if (i == pag.numeroDeChaves - 1) {
             printf("\n");
         } else {
             printf(" | ");
@@ -182,10 +182,10 @@ void exibePagina(Pagina pag) {
 
     printf("filhos: ");
 
-    for (int i = 0; i < ORDEM_ARVORE_B /*pag.numeroDeChaves + 1*/; i++) {
+    for (int i = 0; i < pag.numeroDeChaves + 1; i++) {
         printf("%02d", pag.filhos[i]);
 
-        if (i == ORDEM_ARVORE_B - 1 /*pag.numeroDeChaves*/) {
+        if (i == pag.numeroDeChaves) {
             printf("\n");
         } else {
             printf(" | ");
