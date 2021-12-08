@@ -106,20 +106,12 @@ void divide(int chave, int filhoDireita, Pagina *pag, int *chavePromovida, int *
     resetaPagina(pag);
     resetaPagina(novaPagina);
 
-    for (int i = 0; i < tam; i++) {
-        if (i < meio) {
-            pag->chaves[i] = paux.chaves[i];
-        } else {
-            pag->chaves[i] = -1;
-        }
+    for (int i = 0; i < meio; i++) {
+        pag->chaves[i] = paux.chaves[i];
     }
 
-    for (int i = 0; i < tam + 1; i++) {
-        if (i <= meio) {
-            pag->filhos[i] = paux.filhos[i];
-        } else {
-            pag->filhos[i] = -1;
-        }
+    for (int i = 0; i < meio + 1; i++) {
+        pag->filhos[i] = paux.filhos[i];
     }
 
     for (int i = meio + 1; i < ORDEM_ARVORE_B; i++) {
@@ -143,11 +135,14 @@ void imprimeArvoreB() {
 
     for (int i = 0; i < quantidadePagina(); i++) {
         Pagina pag = lePaginaPeloRRN(i);
+
         if (raiz == i) {
             puts("- - - - Pagina Raiz - - - -\n");
         }
+
         printf("Pagina: %d\n", i);
         exibePagina(pag);
+
         if (raiz == i) {
             puts("- - - - - - - - - - - - - -\n");
         }
@@ -155,7 +150,7 @@ void imprimeArvoreB() {
 
     puts("= = = = = = = = = = = = = =\n");
     printf("raiz: %d\n", raiz);
-    printf("quantidade de paginas: %d\n", quantidadePagina());
+    printf("Quantidade de paginas: %d\n", quantidadePagina());
     puts("= = = = = = = = = = = = = =\n");
 }
 

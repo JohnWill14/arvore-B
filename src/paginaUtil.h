@@ -38,7 +38,7 @@ Pagina criaPaginaVazia() {
     pag->numeroDeChaves = 0;
 
     for (int i = 0; i < ORDEM_ARVORE_B - 1; i++) {
-        pag->chaves[i] = -1;
+        pag->chaves[i] = 0;
     }
 
     for (int i = 0; i < ORDEM_ARVORE_B; i++) {

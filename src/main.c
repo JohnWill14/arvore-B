@@ -11,6 +11,10 @@
 
 #include "operacoesArvoreB.c"
 
+#define ANSI_COLOR_RED "\x1b[31m"  // cores em ANSI utilizadas
+#define ANSI_COLOR_GRAY "\e[0;37m"
+#define ANSI_COLOR_GREEN "\e[0;32m"
+
 bool stringEquals(char*, char*);
 
 /* Querida professora;
@@ -26,20 +30,20 @@ bool stringEquals(char*, char*);
 
 int main(int argc, char* argv[]) {
     if (argc == 3 && stringEquals(argv[1], "-c")) {
-        puts("Modo criacao");
+        puts("====> Modo criacao");
         geraArvoreB(argv[2]);
-        puts("Sucesso !!!");
+        puts(ANSI_COLOR_GREEN "\tSucesso !!!");
     } else if (argc == 2 && stringEquals(argv[1], "-p")) {
-        puts("Modo Impressao");
+        puts("====> Modo Impressao");
         imprimeArvoreB();
     } else if (argc == 2 && stringEquals(argv[1], "-k")) {
-        puts("Modo chaves ordenadas");
+        puts("====> Modo chaves ordenadas");
         mostraChavesOrdenadasArvoreB();
     } else {
-        fprintf(stderr, "Argumentos incorretos!\n");
-        fprintf(stderr, "Modo de uso:\n");
-        fprintf(stderr, "$ %s (-c) nome_arquivo\n", argv[0]);
-        fprintf(stderr, "$ %s (-p|-k)\n", argv[0]);
+        fprintf(stderr, ANSI_COLOR_RED "Argumentos incorretos!\n");
+        fprintf(stderr, ANSI_COLOR_RED "Modo de uso:\n");
+        fprintf(stderr, ANSI_COLOR_RED "$ %s (-c) nome_arquivo\n", argv[0]);
+        fprintf(stderr, ANSI_COLOR_RED "$ %s (-p|-k)\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
